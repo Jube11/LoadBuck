@@ -1,207 +1,73 @@
-# LoadBuck - Trip Profit Calculator for Truck Drivers
+# LoadBuck - Trip Profit Calculator
 
-> **Know your profit before you haul**
+**Know your profit before you haul.**
 
-LoadBuck is a mobile-first web application that helps truck drivers calculate trip profitability before booking loads. Stop guessing and start earning with data-driven decisions.
+A web application for truck drivers to calculate trip profitability before booking loads.
 
-## ✨ Features
+## Features
 
-### Core Calculator
-- **Rate Offered** - Total payment for the load
-- **Mileage** - Loaded and deadhead miles
-- **Route Info** - Origin and destination (with toll estimation)
-- **Fuel Costs** - Current fuel price and truck MPG
-- **Maintenance Reserve** - Set aside for repairs
-- **Tolls** - Estimated toll costs
+- ✅ Calculate profit per trip BEFORE booking
+- ✅ Breakdown: fuel cost, tolls, maintenance
+- ✅ Break-even threshold comparison
+- ✅ Trip history tracking
+- ✅ Mobile-optimized design
+- ✅ Works offline for calculations
 
-### Smart Recommendations
-- **YES** ✅ - Profit exceeds break-even by 10%+
-- **BORDERLINE** ⚠️ - Profit meets break-even
-- **NO** ❌ - Profit below break-even
+## Quick Deploy Options
 
-### Trip History
-- Save and track all your trips
-- Compare estimated vs actual profit
-- Add notes to each trip
-- View statistics and trends
+### Option 1: Render (Recommended - Free)
 
-### User Settings
-- Custom break-even rate
-- Truck specs (MPG, fuel tank size)
-- Maintenance reserve per mile
+1. Go to [render.com](https://render.com) and sign up with GitHub
+2. Click "New +" → "Blueprint"
+3. Connect your GitHub repo
+4. Render will auto-deploy both backend and frontend
 
-## 🚀 Quick Start
+### Option 2: Vercel (Frontend Only)
 
-### Prerequisites
-- Node.js 18+ 
-- npm or yarn
+1. Go to [vercel.com](https://vercel.com)
+2. Import your GitHub repo
+3. Set root directory to `client/`
+4. Deploy
 
-### Installation
+### Option 3: Railway
 
-1. **Clone and navigate to the project:**
+1. Go to [railway.app](https://railway.app)
+2. New Project → Deploy from GitHub repo
+3. Add PostgreSQL database
+4. Deploy
+
+## Local Development
+
 ```bash
-cd loadbuck
+# Install dependencies
+cd server && npm install
+cd ../client && npm install
+
+# Start backend (port 3001)
+cd server && npm start
+
+# Start frontend (port 5173)
+cd client && npm run dev
 ```
 
-2. **Install server dependencies:**
-```bash
-cd server
-npm install
+Open http://localhost:5173
+
+## Tech Stack
+
+- **Frontend:** React + Vite
+- **Backend:** Node.js + Express
+- **Database:** SQLite
+- **Auth:** JWT
+
+## Environment Variables
+
+Create `.env` in server/:
 ```
-
-3. **Install client dependencies:**
-```bash
-cd ../client
-npm install
-```
-
-4. **Start the backend server:**
-```bash
-cd ../server
-npm start
-# Server runs on http://localhost:3001
-```
-
-5. **Start the frontend (in a new terminal):**
-```bash
-cd client
-npm run dev
-# App runs on http://localhost:5173
-```
-
-6. **Open your browser:**
-Navigate to `http://localhost:5173`
-
-## 📱 Usage
-
-### Quick Calculate (No Account)
-1. Visit the landing page
-2. Click "Try Calculator Free"
-3. Enter trip details
-4. Get instant profit analysis
-
-### With Account (Save Trips)
-1. Create an account or sign in
-2. Set your break-even rate in Settings
-3. Calculate trips
-4. Save trips to history
-5. Track actual vs estimated profit
-
-## 🛠️ Tech Stack
-
-**Frontend:**
-- React 18
-- React Router
-- Vite
-- Vanilla CSS (mobile-first)
-
-**Backend:**
-- Node.js
-- Express
-- SQLite
-- JWT Authentication
-
-**API Integrations:**
-- Mock toll estimation (ready for Google Maps Distance Matrix API)
-- Mock fuel prices (ready for real fuel price API)
-
-## 📁 Project Structure
-
-```
-loadbuck/
-├── client/                 # React frontend
-│   ├── src/
-│   │   ├── pages/         # Page components
-│   │   │   ├── Landing.jsx
-│   │   │   ├── Calculator.jsx
-│   │   │   ├── TripHistory.jsx
-│   │   │   ├── Settings.jsx
-│   │   │   └── Login.jsx
-│   │   ├── App.jsx
-│   │   └── ...
-│   └── package.json
-├── server/                 # Express backend
-│   ├── server.js          # Main server file
-│   ├── data/              # SQLite database
-│   └── package.json
-└── README.md
-```
-
-## 🔧 Configuration
-
-### Environment Variables (Server)
-Create a `.env` file in the `server/` directory:
-
-```env
 PORT=3001
-JWT_SECRET=your-secret-key-here
+JWT_SECRET=your-secret-key
+DB_PATH=./data/loadbuck.db
 ```
 
-### API Keys (Optional)
-To add real toll estimation, integrate:
-- Google Maps Distance Matrix API
-- Fuel price API (e.g., GasBuddy, EIA)
+## License
 
-## 🎨 Design System
-
-**Colors:**
-- Primary: `#1e3a5f` (Deep Blue)
-- Accent: `#e07b39` (Orange)
-- Success: `#22c55e` (Green)
-- Warning: `#f59e0b` (Yellow)
-- Danger: `#ef4444` (Red)
-
-**Typography:**
-- Font: Inter (Google Fonts)
-- Mobile-optimized sizing
-
-## 📊 Profit Calculation Formula
-
-```
-Total Miles = Loaded Miles + Deadhead Miles
-Gallons Needed = Total Miles / MPG
-Fuel Cost = Gallons Needed × Fuel Price
-Maintenance = Total Miles × Maintenance Reserve
-Total Expenses = Fuel Cost + Tolls + Maintenance
-Profit = Rate Offered - Total Expenses
-Profit Per Mile = Profit / Total Miles
-```
-
-## 🔒 Authentication
-
-- JWT-based authentication
-- Passwords hashed with bcrypt
-- Protected routes for trip history and settings
-
-## 📱 Mobile Optimization
-
-- Touch-friendly buttons (min 44px)
-- Bottom navigation for easy thumb access
-- Responsive design (works on all screen sizes)
-- Fast load times
-
-## 🚧 Future Enhancements
-
-- [ ] Real-time fuel price API integration
-- [ ] Google Maps route planning
-- [ ] IFTA tax calculations
-- [ ] Multi-stop trip planning
-- [ ] Export reports (PDF/Excel)
-- [ ] Push notifications
-- [ ] Offline mode with service workers
-
-## 📄 License
-
-MIT License - Built for truckers, by people who care.
-
-## 🤝 Contributing
-
-This is an MVP project. Feel free to fork and enhance!
-
-## 💬 Support
-
-Questions? The calculator works offline - your data stays with you.
-
----
-
-**Made with ❤️ for the trucking community**
+MIT
