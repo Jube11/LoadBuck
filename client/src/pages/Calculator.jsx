@@ -26,12 +26,26 @@ function Calculator({ user }) {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState(null)
   const [saved, setSaved] = useState(false)
+  const [tollLoading, setTollLoading] = useState(false)
+  const [tollInfo, setTollInfo] = useState(null)
+  const [autoTollEnabled, setAutoTollEnabled] = useState(true)
 
   useEffect(() => {
     if (user) {
       fetchUserSettings()
     }
   }, [user])
+
+  // Auto-calculate tolls when origin and destination are filled
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      if (autoTollEnabled && formData.origin && formData.destination && formData.origin.length > 3 && formData.destination.length > 3) {
+        estimateTolls(true)
+      }
+    }, 1000)
+
+    return () => clearTimeout(delayDebounce)
+  }, [formData.origin, formData.destination, formData.loaded_miles, autoTollEnabled])
 
   const fetchUserSettings = async () => {
     try {
@@ -115,11 +129,14 @@ function Calculator({ user }) {
     }
   }
 
-  const estimateTolls = async () => {
+  const estimateTolls = async (isAuto = false) => {
     if (!formData.origin || !formData.destination) {
-      setError('Please enter origin and destination')
+      if (!isAuto) setError('Please enter origin and destination')
       return
     }
+
+    setTollLoading(true)
+    if (!isAuto) setError(null)
 
     try {
       const response = await fetch(`${API_URL}/estimate-tolls`, {
@@ -128,16 +145,23 @@ function Calculator({ user }) {
         body: JSON.stringify({
           origin: formData.origin,
           destination: formData.destination,
-          route_miles: parseFloat(formData.loaded_miles) || 500
+          route_miles: parseFloat(formData.loaded_miles) || 0
         })
       })
 
       if (response.ok) {
         const data = await response.json()
         setFormData(prev => ({ ...prev, tolls: data.estimated_tolls.toString() }))
+        setTollInfo(data)
+        if (!isAuto) {
+          setSaved(false)
+        }
       }
     } catch (err) {
       console.error('Failed to estimate tolls:', err)
+      if (!isAuto) setError('Failed to calculate tolls. Please try again.')
+    } finally {
+      setTollLoading(false)
     }
   }
 
@@ -258,18 +282,52 @@ function Calculator({ user }) {
           </div>
 
           <div className="input-row">
-            <div className="input-group">
-              <label htmlFor="tolls">🛣️ Tolls ($)</label>
-              <input
-                type="number"
-                id="tolls"
-                name="tolls"
-                value={formData.tolls}
-                onChange={handleChange}
-                placeholder="0"
-                min="0"
-                step="0.01"
-              />
+            <div className="input-group toll-group">
+              <div className="toll-label-row">
+                <label htmlFor="tolls">🛣️ Tolls ($)</label>
+                <label className="auto-toll-toggle">
+                  <input
+                    type="checkbox"
+                    checked={autoTollEnabled}
+                    onChange={(e) => setAutoTollEnabled(e.target.checked)}
+                  />
+                  Auto-calculate
+                </label>
+              </div>
+              <div className="toll-input-row">
+                <input
+                  type="number"
+                  id="tolls"
+                  name="tolls"
+                  value={formData.tolls}
+                  onChange={handleChange}
+                  placeholder="0"
+                  min="0"
+                  step="0.01"
+                  className={tollLoading ? 'input-loading' : ''}
+                />
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => estimateTolls(false)}
+                  disabled={tollLoading || !formData.origin || !formData.destination}
+                  title="Calculate tolls from origin to destination"
+                >
+                  {tollLoading ? '...' : '🛣️ Calc'}
+                </button>
+              </div>
+              {tollInfo && (
+                <div className="toll-info">
+                  <small>{tollInfo.route_description || `Route: ${tollInfo.origin} → ${tollInfo.destination}`}</small>
+                  {tollInfo.toll_breakdown && (
+                    <div className="toll-breakdown">
+                      {tollInfo.toll_breakdown.map((toll, idx) => (
+                        <span key={idx} className="toll-item">{toll.name}: ${toll.cost}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="input-group">
@@ -287,20 +345,35 @@ function Calculator({ user }) {
             </div>
           </div>
 
-          <button 
-            className="btn btn-accent btn-lg"
-            onClick={calculateProfit}
-            disabled={loading}
-          >
-            {loading ? 'Calculating...' : (
-              <>
-                Calculate Profit
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
-              </>
-            )}
-          </button>
+          <div className="button-row">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => estimateTolls(false)}
+              disabled={tollLoading || !formData.origin || !formData.destination}
+            >
+              {tollLoading ? '🛣️ Calculating...' : (
+                <>
+                  🛣️ Calculate Tolls
+                </>
+              )}
+            </button>
+
+            <button 
+              className="btn btn-accent btn-lg"
+              onClick={calculateProfit}
+              disabled={loading}
+            >
+              {loading ? 'Calculating...' : (
+                <>
+                  Calculate Profit
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                  </svg>
+                </>
+              )}
+            </button>
+          </div>
         </div>
 
         {error && (

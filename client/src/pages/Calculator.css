@@ -30,3 +30,118 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+/* Toll Group Styles */
+.toll-group {
+  flex: 1;
+}
+
+.toll-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.auto-toll-toggle {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.auto-toll-toggle input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.toll-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.toll-input-row input {
+  flex: 1;
+}
+
+.toll-input-row .btn-sm {
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  white-space: nowrap;
+}
+
+.input-loading {
+  background: linear-gradient(90deg, var(--card-bg) 25%, #e0e7ff 50%, var(--card-bg) 75%);
+  background-size: 200% 100%;
+  animation: loading-pulse 1.5s infinite;
+}
+
+@keyframes loading-pulse {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.toll-info {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius);
+  font-size: 0.8125rem;
+}
+
+.toll-info small {
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.toll-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.toll-item {
+  background: var(--card-bg);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: var(--text-primary);
+}
+
+/* Button Row */
+.button-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.button-row .btn {
+  flex: 1;
+}
+
+.button-row .btn-secondary {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 2px solid var(--border-color);
+}
+
+.button-row .btn-secondary:hover:not(:disabled) {
+  background: var(--border-color);
+}
+
+@media (max-width: 480px) {
+  .button-row {
+    flex-direction: column;
+  }
+  
+  .toll-input-row {
+    flex-wrap: wrap;
+  }
+  
+  .toll-input-row .btn-sm {
+    flex: 1;
+  }
+}
