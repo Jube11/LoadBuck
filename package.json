@@ -1,0 +1,22 @@
+{
+  "name": "loadbuck",
+  "version": "1.0.0",
+  "description": "Trip Profit Calculator for Truck Drivers",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "concurrently \"cd server && npm start\" \"cd client && npm run dev\"",
+    "build": "cd client && npm run build",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/username/loadbuck.git"
+  },
+  "keywords": ["trucking", "profit", "calculator", "logistics"],
+  "author": "LoadBuck Team",
+  "license": "MIT"
+}
