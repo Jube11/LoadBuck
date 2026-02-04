@@ -1,0 +1,78 @@
+.settings-page {
+  padding-bottom: 100px;
+}
+
+.settings-page .card {
+  margin-bottom: 20px;
+}
+
+.recommendation-help {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rec-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9375rem;
+  color: var(--gray-700);
+}
+
+.rec-badge {
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.rec-badge.yes {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.rec-badge.borderline {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.rec-badge.no {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.btn-success {
+  background: var(--success) !important;
+}
+
+.account-section {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 2px solid var(--gray-200);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.user-info svg {
+  width: 48px;
+  height: 48px;
+  color: var(--gray-400);
+}
+
+.user-name {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--gray-900);
+}
+
+.user-email {
+  font-size: 0.9375rem;
+  color: var(--gray-500);
+}
