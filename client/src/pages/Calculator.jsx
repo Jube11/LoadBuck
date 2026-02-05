@@ -176,23 +176,11 @@ function Calculator({ user }) {
     }
   }, [user])
 
-  // Auto-calculate everything when inputs change
-  useEffect(() => {
-    const delayDebounce = setTimeout(() => {
-      const hasRequiredFields = formData.rate_offered && formData.loaded_miles
-      if (hasRequiredFields) {
-        calculateProfit(true)
-      }
-    }, 800)
-
-    return () => clearTimeout(delayDebounce)
-  }, [formData.rate_offered, formData.loaded_miles, formData.deadhead_miles, formData.fuel_price, formData.mpg, formData.tolls, formData.maintenance_reserve])
-
-  // Auto-calculate tolls when origin and destination are filled
+  // Auto-calculate tolls only (not profit) when origin and destination are filled
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (autoTollEnabled && formData.origin && formData.destination && formData.origin.length > 2 && formData.destination.length > 2) {
-        estimateTolls(true)
+        estimateTolls()
       }
     }, 1000)
 

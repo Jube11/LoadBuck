@@ -17,14 +17,14 @@
 }
 
 .landing-logo svg {
-  width: 280px;
-  height: 70px;
+  width: 220px;
+  height: 48px;
 }
 
 @media (max-width: 480px) {
   .landing-logo svg {
-    width: 220px;
-    height: 55px;
+    width: 180px;
+    height: 40px;
   }
 }
 

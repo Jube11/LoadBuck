@@ -19,13 +19,13 @@
 
 .login-logo {
   display: inline-flex;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   text-decoration: none;
 }
 
 .login-logo svg {
-  width: 180px;
-  height: 45px;
+  width: 140px;
+  height: 32px;
 }
 
 .login-header h1 {

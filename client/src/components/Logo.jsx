@@ -6,107 +6,72 @@ function Logo({ size = 'large', showTagline = true }) {
   
   if (isIcon) {
     return (
-      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 40, height: 40 }}>
-        {/* Background circle */}
-        <rect width="64" height="64" rx="12" fill="#1a237e"/>
-        
-        {/* Truck body - sleek modern shape */}
-        <path d="M8 48 L8 32 L20 32 L20 24 L36 24 L36 32 L52 32 L56 36 L56 48 L52 52 L12 52 Z" fill="#ff6d00"/>
-        
-        {/* Truck cab */}
-        <path d="M36 24 L44 16 L52 16 L56 24 L56 32 L36 32 Z" fill="#1a237e"/>
-        
-        {/* Window */}
-        <path d="M38 26 L44 20 L50 20 L52 26 L52 30 L38 30 Z" fill="#64b5f6"/>
-        
-        {/* Dollar sign badge */}
-        <circle cx="28" cy="38" r="10" fill="#00c853"/>
-        <text x="28" y="43" fontFamily="system-ui, -apple-system, sans-serif" fontSize="14" fontWeight="bold" fill="white" textAnchor="middle">$</text>
-        
-        {/* Wheels */}
-        <circle cx="18" cy="52" r="5" fill="#1a237e"/>
-        <circle cx="18" cy="52" r="2.5" fill="#fff"/>
-        <circle cx="46" cy="52" r="5" fill="#1a237e"/>
-        <circle cx="46" cy="52" r="2.5" fill="#fff"/>
+      <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: 32, height: 32 }}>
+        <rect width="48" height="48" rx="10" fill="#1a237e"/>
+        <path d="M8 36V26H16V20H28V26H38V36H34L8 36Z" fill="#ff6d00"/>
+        <circle cx="24" cy="28" r="8" fill="#00c853"/>
+        <text x="24" y="32" fontFamily="system-ui, sans-serif" fontSize="12" fontWeight="bold" fill="white" textAnchor="middle">$</text>
+        <circle cx="14" cy="36" r="4" fill="white"/>
+        <circle cx="14" cy="36" r="2" fill="#1a237e"/>
+        <circle cx="32" cy="36" r="4" fill="white"/>
+        <circle cx="32" cy="36" r="2" fill="#1a237e"/>
       </svg>
     )
   }
   
   return (
     <svg 
-      viewBox={isSmall ? "0 0 200 50" : "0 0 400 100"} 
+      viewBox={isSmall ? "0 0 180 40" : "0 0 280 60"} 
       fill="none" 
       xmlns="http://www.w3.org/2000/svg"
-      style={{ width: isSmall ? 160 : 320, height: isSmall ? 40 : 80 }}
+      style={{ width: isSmall ? 140 : 220, height: isSmall ? 32 : 48 }}
     >
-      {/* Icon group */}
-      <g transform={isSmall ? "translate(0, 5) scale(0.7)" : "translate(10, 10)"}>
-        {/* Background badge */}
-        <rect x="0" y="0" width="80" height="80" rx="16" fill="#1a237e"/>
-        
-        {/* Truck body - modern sleek design */}
-        <path d="M10 60 L10 40 L26 40 L26 30 L46 30 L46 40 L66 40 L70 46 L70 60 L66 66 L14 66 Z" fill="#ff6d00"/>
-        
-        {/* Truck cab */}
-        <path d="M46 30 L56 20 L66 20 L70 30 L70 40 L46 40 Z" fill="#1a237e"/>
-        
-        {/* Windshield */}
-        <path d="M48 32 L56 24 L64 24 L66 32 L66 38 L48 38 Z" fill="#90caf9"/>
-        
-        {/* Dollar sign circle */}
-        <circle cx="35" cy="48" r="14" fill="#00c853"/>
-        <text x="35" y="54" fontFamily="system-ui, -apple-system, sans-serif" fontSize="18" fontWeight="bold" fill="white" textAnchor="middle">$</text>
-        
-        {/* Wheels with white rims */}
-        <circle cx="22" cy="66" r="7" fill="#1a237e"/>
-        <circle cx="22" cy="66" r="3.5" fill="#fff"/>
-        <circle cx="58" cy="66" r="7" fill="#1a237e"/>
-        <circle cx="58" cy="66" r="3.5" fill="#fff"/>
+      {/* Icon */}
+      <g transform={isSmall ? "translate(0, 2) scale(0.65)" : "translate(0, 3) scale(1)"}>
+        <rect x="0" y="0" width="48" height="48" rx="10" fill="#1a237e"/>
+        <path d="M8 36V26H16V20H28V26H38V36H34L8 36Z" fill="#ff6d00"/>
+        <circle cx="24" cy="28" r="8" fill="#00c853"/>
+        <text x="24" y="32" fontFamily="system-ui, -apple-system, sans-serif" fontSize="12" fontWeight="bold" fill="white" textAnchor="middle">$</text>
+        <circle cx="14" cy="36" r="4" fill="white"/>
+        <circle cx="14" cy="36" r="2" fill="#1a237e"/>
+        <circle cx="32" cy="36" r="4" fill="white"/>
+        <circle cx="32" cy="36" r="2" fill="#1a237e"/>
       </g>
       
-      {/* Text group */}
-      <g transform={isSmall ? "translate(65, 5)" : "translate(110, 5)"}>
-        {/* LoadBuck text */}
+      {/* Text */}
+      <g transform={isSmall ? "translate(38, 0)" : "translate(58, 0)"}>
         <text 
           x="0" 
-          y={isSmall ? "35" : "55"} 
-          fontFamily="'Inter', system-ui, -apple-system, sans-serif" 
-          fontSize={isSmall ? "28" : "48"} 
-          fontWeight="800" 
+          y={isSmall ? "30" : "45"} 
+          fontFamily="'Inter', system-ui, sans-serif" 
+          fontSize={isSmall ? "24" : "38"} 
+          fontWeight="700" 
           fill="#1a237e"
-          letterSpacing="-1"
         >
           Load
         </text>
         <text 
-          x={isSmall ? "58" : "100"} 
-          y={isSmall ? "35" : "55"} 
-          fontFamily="'Inter', system-ui, -apple-system, sans-serif" 
-          fontSize={isSmall ? "28" : "48"} 
-          fontWeight="800" 
+          x={isSmall ? "52" : "82"} 
+          y={isSmall ? "30" : "45"} 
+          fontFamily="'Inter', system-ui, sans-serif" 
+          fontSize={isSmall ? "24" : "38"} 
+          fontWeight="700" 
           fill="#ff6d00"
-          letterSpacing="-1"
         >
           Buck
         </text>
         
-        {/* Tagline */}
         {showTagline && (
-          <>
-            <line x1="0" y1={isSmall ? "42" : "68"} x2={isSmall ? "40" : "70"} y2={isSmall ? "42" : "68"} stroke="#1a237e" strokeWidth="1.5"/>
-            <text 
-              x={isSmall ? "48" : "80"} 
-              y={isSmall ? "44" : "70"} 
-              fontFamily="'Inter', system-ui, -apple-system, sans-serif" 
-              fontSize={isSmall ? "9" : "13"} 
-              fontWeight="500" 
-              fill="#00c853"
-              fontStyle="italic"
-            >
-              Know if your load pays
-            </text>
-            <line x1={isSmall ? "118" : "175"} y1={isSmall ? "42" : "68"} x2={isSmall ? "140" : "200"} y2={isSmall ? "42" : "68"} stroke="#1a237e" strokeWidth="1.5"/>
-          </>
+          <text 
+            x={isSmall ? "2" : "2"} 
+            y={isSmall ? "38" : "56"} 
+            fontFamily="'Inter', system-ui, sans-serif" 
+            fontSize={isSmall ? "8" : "11"} 
+            fontWeight="500" 
+            fill="#00c853"
+          >
+            Know if your load pays
+          </text>
         )}
       </g>
     </svg>
