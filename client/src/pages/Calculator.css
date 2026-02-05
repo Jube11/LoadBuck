@@ -31,6 +31,75 @@
   cursor: not-allowed;
 }
 
+/* Autocomplete Styles */
+.autocomplete-group {
+  position: relative;
+}
+
+.autocomplete-wrapper {
+  position: relative;
+}
+
+.suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.suggestions-list li {
+  padding: 10px 14px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  transition: background 0.15s ease;
+}
+
+.suggestions-list li:last-child {
+  border-bottom: none;
+}
+
+.suggestions-list li:hover,
+.suggestions-list li.selected {
+  background: var(--bg-secondary);
+}
+
+.suggestions-list li.selected {
+  background: var(--primary);
+  color: white;
+}
+
+.suggestions-list li.selected .state-code {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.city-name {
+  font-weight: 500;
+}
+
+.state-code {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
 /* Toll Group Styles */
 .toll-group {
   flex: 1;
@@ -54,21 +123,6 @@
 
 .auto-toll-toggle input[type="checkbox"] {
   cursor: pointer;
-}
-
-.toll-input-row {
-  display: flex;
-  gap: 8px;
-}
-
-.toll-input-row input {
-  flex: 1;
-}
-
-.toll-input-row .btn-sm {
-  padding: 8px 12px;
-  font-size: 0.875rem;
-  white-space: nowrap;
 }
 
 .input-loading {
@@ -111,37 +165,12 @@
   color: var(--text-primary);
 }
 
-/* Button Row */
-.button-row {
-  display: flex;
-  gap: 12px;
-  margin-top: 24px;
-}
-
-.button-row .btn {
-  flex: 1;
-}
-
-.button-row .btn-secondary {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  border: 2px solid var(--border-color);
-}
-
-.button-row .btn-secondary:hover:not(:disabled) {
-  background: var(--border-color);
-}
-
 @media (max-width: 480px) {
-  .button-row {
-    flex-direction: column;
+  .suggestions-list {
+    max-height: 150px;
   }
   
-  .toll-input-row {
-    flex-wrap: wrap;
-  }
-  
-  .toll-input-row .btn-sm {
-    flex: 1;
+  .suggestions-list li {
+    padding: 12px 14px;
   }
 }
