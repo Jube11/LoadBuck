@@ -624,6 +624,15 @@ function Calculator({ user }) {
               />
             </div>
           </div>
+
+          <button 
+            type="button"
+            className="btn btn-accent btn-lg calculate-btn"
+            onClick={() => calculateProfit(false)}
+            disabled={loading || !formData.rate_offered || !formData.loaded_miles}
+          >
+            {loading ? 'Calculating...' : '💰 Calculate Profit'}
+          </button>
         </div>
 
         {error && (
