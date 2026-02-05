@@ -48,6 +48,31 @@ function Login({ onLogin }) {
     }
   }
 
+  const handleDemoLogin = async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const response = await fetch(`${API_URL}/auth/demo`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Demo login failed')
+      }
+
+      onLogin(data)
+      navigate('/calculator')
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="login-page">
       <div className="login-container">
@@ -133,6 +158,18 @@ function Login({ onLogin }) {
               {isLogin ? 'Sign up' : 'Sign in'}
             </button>
           </p>
+
+          <div className="demo-option">
+            <button 
+              type="button"
+              className="btn btn-primary"
+              onClick={handleDemoLogin}
+              disabled={loading}
+            >
+              {loading ? 'Loading...' : 'Try Demo Account'}
+            </button>
+            <p className="demo-note">Test with sample data instantly</p>
+          </div>
 
           <div className="guest-option">
             <Link to="/calculator" className="btn btn-outline">

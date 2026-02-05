@@ -339,6 +339,149 @@ app.post('/api/auth/register', async (req, res) => {
   }
 });
 
+// Demo Account - Auto-login with pre-filled data
+app.post('/api/auth/demo', async (req, res) => {
+  try {
+    const demoEmail = 'demo@loadbuck.app';
+    const demoPassword = 'demo123';
+    const demoName = 'Demo Driver';
+    
+    // Check if demo user exists
+    db.get(
+      'SELECT * FROM users WHERE email = ?',
+      [demoEmail],
+      async (err, user) => {
+        if (err) {
+          return res.status(500).json({ error: 'Database error' });
+        }
+
+        let userId;
+        
+        if (!user) {
+          // Create demo user
+          const hashedPassword = await bcrypt.hash(demoPassword, 10);
+          userId = uuidv4();
+          
+          db.run(
+            'INSERT INTO users (id, email, password, name) VALUES (?, ?, ?, ?)',
+            [userId, demoEmail, hashedPassword, demoName],
+            function(err) {
+              if (err) {
+                return res.status(500).json({ error: 'Failed to create demo user' });
+              }
+              
+              // Create demo settings
+              db.run(
+                'INSERT INTO settings (user_id, break_even_rate, mpg, fuel_tank_size, maintenance_reserve) VALUES (?, 2.0, 7.5, 150, 0.15)',
+                [userId]
+              );
+              
+              // Add some sample trips
+              addSampleTrips(userId);
+            }
+          );
+        } else {
+          userId = user.id;
+        }
+
+        const token = jwt.sign(
+          { userId: userId, email: demoEmail },
+          JWT_SECRET
+        );
+
+        res.json({
+          token,
+          user: {
+            id: userId,
+            email: demoEmail,
+            name: demoName
+          }
+        });
+      }
+    );
+  } catch (error) {
+    console.error('Demo login error:', error);
+    res.status(500).json({ error: 'Demo login failed' });
+  }
+});
+
+// Helper to add sample trips for demo
+function addSampleTrips(userId) {
+  const sampleTrips = [
+    {
+      id: uuidv4(),
+      rate_offered: 2850,
+      loaded_miles: 850,
+      deadhead_miles: 45,
+      origin: 'Chicago, IL',
+      destination: 'New York, NY',
+      fuel_price: 3.85,
+      mpg: 7.5,
+      tolls: 57,
+      maintenance_reserve: 0.15,
+      fuel_cost: 457.67,
+      total_profit: 2080.58,
+      profit_per_mile: 2.32,
+      break_even_rate: 2.0,
+      recommendation: 'YES',
+      status: 'completed',
+      actual_profit: 2050
+    },
+    {
+      id: uuidv4(),
+      rate_offered: 1200,
+      loaded_miles: 600,
+      deadhead_miles: 80,
+      origin: 'Dallas, TX',
+      destination: 'Houston, TX',
+      fuel_price: 3.45,
+      mpg: 7.5,
+      tolls: 22,
+      maintenance_reserve: 0.15,
+      fuel_cost: 312.80,
+      total_profit: 748.20,
+      profit_per_mile: 1.09,
+      break_even_rate: 2.0,
+      recommendation: 'NO',
+      status: 'skipped'
+    },
+    {
+      id: uuidv4(),
+      rate_offered: 3200,
+      loaded_miles: 1100,
+      deadhead_miles: 0,
+      origin: 'Los Angeles, CA',
+      destination: 'Phoenix, AZ',
+      fuel_price: 4.25,
+      mpg: 7.5,
+      tolls: 15,
+      maintenance_reserve: 0.15,
+      fuel_cost: 623.33,
+      total_profit: 2397.67,
+      profit_per_mile: 2.18,
+      break_even_rate: 2.0,
+      recommendation: 'YES',
+      status: 'calculated'
+    }
+  ];
+  
+  sampleTrips.forEach(trip => {
+    db.run(
+      `INSERT INTO trips (
+        id, user_id, rate_offered, loaded_miles, deadhead_miles, origin, destination,
+        fuel_price, mpg, tolls, maintenance_reserve, fuel_cost, total_profit,
+        profit_per_mile, break_even_rate, recommendation, status, actual_profit
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        trip.id, userId, trip.rate_offered, trip.loaded_miles, trip.deadhead_miles,
+        trip.origin, trip.destination, trip.fuel_price, trip.mpg, trip.tolls,
+        trip.maintenance_reserve, trip.fuel_cost, trip.total_profit, trip.profit_per_mile,
+        trip.break_even_rate, trip.recommendation, trip.status, trip.actual_profit
+      ]
+    );
+  });
+}
+
 // Login
 app.post('/api/auth/login', (req, res) => {
   const { email, password } = req.body;
