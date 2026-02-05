@@ -12,12 +12,20 @@
 .landing-logo {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
 }
 
 .landing-logo svg {
-  width: 160px;
-  height: 48px;
+  width: 280px;
+  height: 70px;
+}
+
+@media (max-width: 480px) {
+  .landing-logo svg {
+    width: 220px;
+    height: 55px;
+  }
 }
 
 .landing-hero {

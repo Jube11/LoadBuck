@@ -18,14 +18,14 @@
 }
 
 .login-logo {
-  display: inline-block;
+  display: inline-flex;
   margin-bottom: 24px;
   text-decoration: none;
 }
 
 .login-logo svg {
-  width: 200px;
-  height: 60px;
+  width: 180px;
+  height: 45px;
 }
 
 .login-header h1 {
