@@ -574,17 +574,7 @@ function Calculator({ user }) {
 
           <div className="input-row">
             <div className="input-group toll-group">
-              <div className="toll-label-row">
-                <label htmlFor="tolls">🛣️ Tolls ($)</label>
-                <label className="auto-toll-toggle">
-                  <input
-                    type="checkbox"
-                    checked={autoTollEnabled}
-                    onChange={(e) => setAutoTollEnabled(e.target.checked)}
-                  />
-                  Auto-calculate
-                </label>
-              </div>
+              <label htmlFor="tolls">🛣️ Tolls ($)</label>
               <input
                 type="number"
                 id="tolls"

@@ -7,15 +7,21 @@ function Landing() {
     <div className="landing">
       <header className="landing-header">
         <div className="landing-logo">
-          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="4" y="20" width="32" height="20" rx="3" fill="#1e3a5f"/>
-            <circle cx="12" cy="38" r="5" fill="#1e3a5f"/>
-            <circle cx="32" cy="38" r="5" fill="#1e3a5f"/>
-            <rect x="36" y="24" width="10" height="14" rx="2" fill="#e07b39"/>
-            <rect x="8" y="24" width="20" height="10" rx="2" fill="#2d4a6f"/>
-            <path d="M44 28H48V32H44V28Z" fill="#e07b39"/>
+          <svg viewBox="0 0 400 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 10 85 Q 25 60, 50 65 L 80 70 Q 100 75, 110 60 L 125 40 Q 135 25, 155 30 L 180 35 Q 200 40, 210 55 L 220 75 Q 225 85, 215 90 L 190 95 Q 170 98, 150 95 L 100 90 Q 70 88, 40 92 L 15 95 Q 5 96, 10 85 Z" fill="#ff6d00"/>
+            <path d="M 95 45 L 125 30 L 140 35 L 145 55 L 140 75 L 120 80 L 95 75 L 90 60 Z" fill="#1a237e"/>
+            <rect x="50" y="50" width="55" height="35" rx="5" fill="#1a237e"/>
+            <text x="75" y="78" fontFamily="Arial, sans-serif" fontSize="28" fontWeight="bold" fill="#00c853" textAnchor="middle">$</text>
+            <circle cx="65" cy="92" r="10" fill="#1a237e"/>
+            <circle cx="65" cy="92" r="5" fill="#fff"/>
+            <circle cx="125" cy="92" r="10" fill="#1a237e"/>
+            <circle cx="125" cy="92" r="5" fill="#fff"/>
+            <text x="230" y="72" fontFamily="Arial, sans-serif" fontSize="42" fontWeight="800" fill="#1a237e" letterSpacing="-1">Load</text>
+            <text x="328" y="72" fontFamily="Arial, sans-serif" fontSize="42" fontWeight="800" fill="#ff6d00" letterSpacing="-1">Buck</text>
+            <line x1="230" y1="85" x2="300" y2="85" stroke="#1a237e" strokeWidth="1"/>
+            <text x="315" y="88" fontFamily="Arial, sans-serif" fontSize="11" fontWeight="500" fill="#00c853" fontStyle="italic">Know if your load pays</text>
+            <line x1="330" y1="85" x2="400" y2="85" stroke="#1a237e" strokeWidth="1"/>
           </svg>
-          <span>LoadBuck</span>
         </div>
       </header>
 
