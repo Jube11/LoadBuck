@@ -280,6 +280,140 @@ app.post('/api/estimate-tolls', (req, res) => {
   });
 });
 
+// Demo account endpoint - creates or returns demo user
+app.post('/api/auth/demo', async (req, res) => {
+  try {
+    const demoEmail = 'demo@loadbuck.app';
+    const demoPassword = 'demo123';
+    
+    // Check if demo user exists
+    db.get('SELECT * FROM users WHERE email = ?', [demoEmail], async (err, user) => {
+      if (err) {
+        return res.status(500).json({ error: 'Database error' });
+      }
+
+      let userId;
+      
+      if (!user) {
+        // Create demo user
+        const hashedPassword = await bcrypt.hash(demoPassword, 10);
+        userId = 'demo-user-001';
+        
+        db.run(
+          'INSERT INTO users (id, email, password, name) VALUES (?, ?, ?, ?)',
+          [userId, demoEmail, hashedPassword, 'Demo Driver'],
+          function(err) {
+            if (err) {
+              return res.status(500).json({ error: 'Failed to create demo user' });
+            }
+            
+            // Create default settings for demo
+            db.run(
+              'INSERT OR REPLACE INTO settings (user_id, break_even_rate, mpg, fuel_tank_size, maintenance_reserve) VALUES (?, 2.0, 7.0, 150, 0.15)',
+              [userId]
+            );
+            
+            // Add sample trip data
+            const sampleTrips = [
+              {
+                id: 'trip-001',
+                user_id: userId,
+                rate_offered: 2850,
+                loaded_miles: 750,
+                deadhead_miles: 45,
+                origin: 'Chicago, IL',
+                destination: 'Dallas, TX',
+                fuel_price: 3.75,
+                mpg: 7.0,
+                tolls: 35,
+                maintenance_reserve: 0.15,
+                fuel_cost: 426.43,
+                total_profit: 2248.32,
+                profit_per_mile: 2.83,
+                break_even_rate: 2.0,
+                recommendation: 'YES',
+                status: 'completed',
+                actual_profit: 2200,
+                created_at: '2026-01-15T10:30:00Z'
+              },
+              {
+                id: 'trip-002',
+                user_id: userId,
+                rate_offered: 1200,
+                loaded_miles: 400,
+                deadhead_miles: 80,
+                origin: 'Houston, TX',
+                destination: 'Oklahoma City, OK',
+                fuel_price: 3.45,
+                mpg: 6.8,
+                tolls: 12,
+                maintenance_reserve: 0.15,
+                fuel_cost: 243.53,
+                total_profit: 884.47,
+                profit_per_mile: 1.85,
+                break_even_rate: 2.0,
+                recommendation: 'NO',
+                status: 'declined',
+                created_at: '2026-01-20T14:00:00Z'
+              },
+              {
+                id: 'trip-003',
+                user_id: userId,
+                rate_offered: 4200,
+                loaded_miles: 1200,
+                deadhead_miles: 0,
+                origin: 'Los Angeles, CA',
+                destination: 'Seattle, WA',
+                fuel_price: 4.25,
+                mpg: 7.2,
+                tolls: 65,
+                maintenance_reserve: 0.15,
+                fuel_cost: 708.33,
+                total_profit: 3246.67,
+                profit_per_mile: 2.71,
+                break_even_rate: 2.0,
+                recommendation: 'YES',
+                status: 'booked',
+                created_at: '2026-02-01T08:00:00Z'
+              }
+            ];
+            
+            sampleTrips.forEach(trip => {
+              db.run(
+                `INSERT OR REPLACE INTO trips (id, user_id, rate_offered, loaded_miles, deadhead_miles, origin, destination,
+                  fuel_price, mpg, tolls, maintenance_reserve, fuel_cost, total_profit, profit_per_mile,
+                  break_even_rate, recommendation, status, actual_profit, created_at) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                [trip.id, trip.user_id, trip.rate_offered, trip.loaded_miles, trip.deadhead_miles,
+                 trip.origin, trip.destination, trip.fuel_price, trip.mpg, trip.tolls,
+                 trip.maintenance_reserve, trip.fuel_cost, trip.total_profit, trip.profit_per_mile,
+                 trip.break_even_rate, trip.recommendation, trip.status, trip.actual_profit, trip.created_at]
+              );
+            });
+            
+            const token = jwt.sign({ userId, email: demoEmail }, JWT_SECRET);
+            res.json({
+              token,
+              user: { id: userId, email: demoEmail, name: 'Demo Driver' }
+            });
+          }
+        );
+      } else {
+        // Demo user exists, generate token
+        userId = user.id;
+        const token = jwt.sign({ userId, email: demoEmail }, JWT_SECRET);
+        res.json({
+          token,
+          user: { id: userId, email: demoEmail, name: user.name }
+        });
+      }
+    });
+  } catch (error) {
+    console.error('Demo login error:', error);
+    res.status(500).json({ error: 'Demo login failed' });
+  }
+});
+
 // Get fuel prices (mock implementation)
 app.get('/api/fuel-prices', (req, res) => {
   // Mock fuel prices by region
