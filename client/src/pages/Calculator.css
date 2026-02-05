@@ -178,18 +178,82 @@
   cursor: not-allowed;
 }
 
+.result-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.result-actions .btn-sm {
+  flex: 1;
+  padding: 10px 16px;
+  font-size: 0.875rem;
+}
+
+.quick-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stat-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 12px;
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
 @media (max-width: 480px) {
   .suggestions-list {
     max-height: 150px;
   }
-  
+
   .suggestions-list li {
     padding: 12px 14px;
   }
-  
+
   .calculate-btn {
     margin-top: 20px;
     padding: 14px 20px;
     font-size: 1rem;
+  }
+
+  .result-actions {
+    flex-direction: column;
+  }
+
+  .quick-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .stat-item {
+    padding: 10px 8px;
+  }
+
+  .stat-value {
+    font-size: 1rem;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
   }
 }
